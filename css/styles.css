@@ -1,13 +1,3 @@
-.logo {
-	width: 180px;
-	filter: grayscale(100%);
-}
-
-.logo:hover {
-	width: 200px;
-	filter: grayscale(0%);
-}
-
 .logo-link {
 	display: block;
 	text-decoration: none;

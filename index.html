@@ -36,15 +36,89 @@
     <link href="./output.css" rel="stylesheet">
 	<link href="css/styles.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.css" integrity="sha512-Lu+VnqGx9MjOt7BwiEjQ2oIeEDuFIO8G+ap2RfgFfDBtb9HxMfe6XL6YJlF3Dg3XGUR20AeVrJk02/0vF7q/4g==" crossorigin="anonymous" />
 	<script async defer src="https://buttons.github.io/buttons.js"></script>
 </head>
 <body>
+	<style>
+		.loading-container {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: white;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			z-index: 9999;
+			opacity: 1;
+			transition: opacity 1s ease-in-out;
+		}
+
+		/* Estilos para el contenedor del círculo de carga */
+		.spinner-container {
+			position: relative;
+			width: 120px; /* Tamaño del círculo */
+			height: 120px; /* Tamaño del círculo */
+		}
+
+		/* Estilos para el círculo de carga */
+		.spinner {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			width: 100px; /* Tamaño del círculo */
+			height: 100px; /* Tamaño del círculo */
+			border: 4px solid transparent;
+			border-top-color: #54ec87; /* Color del círculo */
+			border-radius: 50%; /* Forma circular */
+			animation: spin 1s linear infinite; /* Animación de giro */
+		}
+
+		/* Animación de giro */
+		@keyframes spin {
+			0% { transform: translate(-50%, -50%) rotate(0deg); }
+			100% { transform: translate(-50%, -50%) rotate(360deg); }
+		}
+
+		/* Efecto de desvanecimiento */
+		.loading-container.fade-out {
+			opacity: 0;
+			pointer-events: none; /* Desactiva los eventos de ratón para el elemento */
+		}
+
+		/* Estilos para el logo */
+		.logo {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			width: 70px; /* Tamaño del logo */
+			height: 70px; /* Tamaño del logo */
+		}
+	</style>
+	<div class="loading-container">
+        <div class="spinner-container">
+            <div class="spinner"></div>
+            <img src="images/logoloading.png" alt="Logo de tu empresa" class="logo">
+        </div>
+    </div>
+
+
+    <script>
+        setTimeout(function() {
+            const loadingContainer = document.querySelector('.loading-container');
+            loadingContainer.classList.add('fade-out');
+            setTimeout(function() {
+                loadingContainer.style.display = 'none';
+            }, 1000);
+        }, 1000);
+    </script>
     <header class="fixed w-full">
         <nav class="bg-white border-gray-200 py-2.5 dark:bg-gray-900 nav">
             <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
                 <a href="#" class="flex items-center">
-                    <img src="./images/logo-light.png" style="width: 80px;" class="sm:hidden" alt="Logo" />
                     <span class="pl-3 self-center text-xl font-semibold whitespace-nowrap dark:text-white">Grupo Devoto</span>
                 </a>
                 <div class="flex items-center lg:order-2">
@@ -106,6 +180,42 @@
         </nav>
     </header>
 
+	<style>
+		.levitate {
+			position: relative;
+			border-radius: 15px;
+			overflow: hidden;
+			animation: levitateAnimation 2s infinite alternate ease-in-out;
+		}
+
+		.levitate:hover {
+			animation-play-state: paused;
+			transform: translateY(-25px);
+		}
+
+		
+		.levitate:hover:nth-child(1) {
+			left: -30%;
+		}
+
+		.levitate:hover:nth-child(2) {
+			left: 50%;
+		}
+
+		.levitate:hover:nth-child(3) {
+			left: 90%;
+		}
+
+		@keyframes levitateAnimation {
+			0% {
+				transform: translateY(0);
+			}
+			100% {
+				transform: translateY(-15px);
+			}
+		}
+	</style>
+
     <!-- Start block -->
 	<section style="background-image: url(images/fondo2.jpg); background-repeat: repeat-x;">
         <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
@@ -126,11 +236,33 @@
                     </a>
                 </div>
             </div>
-            <div class="hidden lg:mt-0 lg:col-span-7 lg:flex">
-                <img src="./images/2.jpg" alt="hero image">
-            </div>               
+			<div class="hidden lg:mt-0 lg:col-span-7 lg:flex relative">
+				<img src="./images/1.jpg" alt="hero image" class="levitate rounded-3xl" style="width: 50%; position: absolute; top: 20%; left: 0%;" data-rebound-delay="0">
+				<img src="./images/3.jpg" alt="hero image" class="levitate rounded-3xl" style="width: 50%; position: absolute; top: 0%; left: 30%;" data-rebound-delay="1">
+				<img src="./images/2.jpg" alt="hero image" class="levitate rounded-3xl" style="width: 50%; position: absolute; top: 70%; left: 45%;" data-rebound-delay="2">
+			</div>
         </div>
     </section>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			const images = document.querySelectorAll(".levitate");
+
+			images.forEach(function(image) {
+				const delay = parseInt(image.getAttribute("data-rebound-delay")) * 500;
+
+				setInterval(function() {
+					image.style.transition = "transform 0.5s ease";
+					image.style.transform = "translateY(-15px)";
+
+					setTimeout(function() {
+						image.style.transition = "transform 0.5s ease";
+						image.style.transform = "translateY(0)";
+					}, delay);
+				}, 4000 + delay);
+			});
+		});
+	</script>
 
 	<style>
 	@keyframes movebg-e {
@@ -163,83 +295,7 @@
 	}
 	</style>
 
-	<section class="banks">
-		<div id="icon-ani">
-			<div class="icons-row position-absolute bg-e" style="
-					bottom: 0px;
-					left: 0px;
-					width: 3938px;
-					height: 165px;
-					background-position: 0 0;
-					background-repeat: repeat;
-					background-image: url('images/logos/banner.jpg');
-					background-size: 100%;
-				">
-				&nbsp;
-				</div>
-				&nbsp;
-			</div>
-		</div>
-	</section>
 	
-    <!-- End block -->
-	<section class="bg-white dark:bg-gray-800 pb-8">
-		<div class="container my-24 mx-auto md:px-12">
-			<section class="mb-32 text-center">
-		
-				<div class="grid px-6 md:grid-cols-2 lg:grid-cols-6">
-					<div class="mx-auto mb-12 lg:mb-0">
-						<a href="enlace_capyc.html" class="logo-link">
-							<img src="images/logos/capyc.jpg" class="logo grayscale max-w-[90px] transition duration-300 transform hover:scale-110" alt="Capyc" />
-						</a>
-					</div>
-					<div class="mx-auto mb-12 lg:mb-0">
-						<a href="enlace_capyc.html" class="logo-link">
-							<img src="images/logos/lgp.jpg" class="logo grayscale max-w-[90px] transition duration-300 transform hover:scale-110" alt="Capyc" />
-						</a>
-					</div>
-					<div class="mx-auto mb-12 lg:mb-0">
-						<a href="enlace_capyc.html" class="logo-link">
-							<img src="images/logos/ssd.jpg" class="logo grayscale max-w-[90px] transition duration-300 transform hover:scale-110" alt="Capyc" />
-						</a>
-					</div>
-					<div class="mx-auto mb-12 lg:mb-0">
-						<a href="enlace_capyc.html" class="logo-link">
-							<img src="images/logos/cosmopolita.jpg" class="logo grayscale max-w-[90px] transition duration-300 transform hover:scale-110" alt="Capyc" />
-						</a>
-					</div>
-					<div class="mx-auto mb-12 lg:mb-0">
-						<a href="enlace_capyc.html" class="logo-link">
-							<img src="images/logos/cospd.jpg" class="logo grayscale max-w-[90px] transition duration-300 transform hover:scale-110" alt="Capyc" />
-						</a>
-					</div>
-					<div class="mx-auto mb-12 lg:mb-0">
-						<a href="enlace_capyc.html" class="logo-link">
-							<img src="images/logos/fundesol.jpg" class="logo grayscale max-w-[90px] transition duration-300 transform hover:scale-110" alt="Capyc" />
-						</a>
-					</div>
-					<!-- Repite este patrón para otros logos -->
-				</div>
-			</section>
-		</div>
-	</section>
-
-	<!--<section class="pt-20 bg-white dark:bg-gray-900">
-		<div class="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
-			<img class="w-full dark:hidden" src="images/dulcera.jpg" alt="dashboard image">
-			<img class="w-full hidden dark:block" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/cta/cta-dashboard-mockup-dark.svg" alt="dashboard image">
-			<div class="mt-4 md:mt-0">
-				<h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Capyc Seccion Dulces</h2>
-				<p class="mb-6 font-light text-gray-500 md:text-lg dark:text-gray-400">Cuenta con distribuidores en todo el país, siendo sus principales zonas Buenos Aires, Rosario, Córdoba, Salta, Chaco, Formosa, Entre Ríos, Corrientes, entre otras.  
-
-					La calidad de las materias primas es clave para obtener un producto de excelencia, siendo la leche la materia prima principal, abastecida por tambos debidamente habilitados.  </p>
-				<a href="#" class="inline-flex items-center text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-900">
-					Ver mas
-				</a>
-			</div>
-		</div>
-	</section>-->
-
     <!-- Start block -->
 	<section style="background-image: url(images/fondo3.jpg); background-repeat: repeat-x;">
         <div class="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-24 lg:px-6">
@@ -248,13 +304,14 @@
                     <path d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z" fill="currentColor"/>
                 </svg> 
                 <blockquote>
-                    <p class="text-xl font-medium text-gray-900 md:text-2xl dark:text-white">"La responsabilidad es grande, pero uno se suma a un grupo de trabajo que viene desde hace muchos años y a una estructura consolidada por lo cual sólo se trata de acompañar la continuidad de un proceso, empezando a darle mi impronta personal."</p>
+                    <p class="text-xl font-medium text-gray-900 md:text-2xl dark:text-white">Más de 40 años siendo protagonista del progreso constante de Devoto, acompañando y generando fuentes de trabajo.
+						"La unión hace la fuerza"</p>
                 </blockquote>
                 <figcaption class="flex items-center justify-center mt-6 space-x-3">
-                    <img class="w-6 h-6 rounded-full" src="images/Agustin.jpg" alt="profile picture">
+                    <img class="w-6 h-6 rounded-full" src="images/logoig.jpg" alt="profile picture">
                     <div class="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
-                        <div class="pr-3 font-medium text-gray-900 dark:text-white">Agustin Benso</div>
-                        <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">Gerente Grupo Devoto</div>
+                        <div class="pr-3 font-medium text-gray-900 dark:text-white">Grupo Devoto</div>
+                        <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">Cordoba, Argentina</div>
                     </div>
                 </figcaption>
             </figure>
@@ -262,7 +319,7 @@
       </section>
     <!-- End block -->
 
-	<div class="max-w-screen-xl px-4 pt-20 mx-auto lg:gap-8 xl:gap-0 lg:pt-16 lg:grid-cols-12 flex items-center justify-center">
+	<div style="padding-top: 25px;" class="max-w-screen-xl px-4 mx-auto lg:gap-8 xl:gap-0 lg:pt-16 lg:grid-cols-12 flex items-center justify-center">
 		<div class="text-center">
 			<h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">Seguinos en Instagram</h2>
 			<p class="mb-5 font-light text-gray-500 sm:text-xl dark:text-gray-400">Mantenete 100% informado</p>
@@ -513,11 +570,12 @@
 	</section>
     <!-- End block -->
 	<footer class="">
-		<h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-green-500">Grupo Devoto Hoy</h2>
+		<h2 class="mb-4 text-3xl font-extrabold tracking-tight text-center">Grupo Devoto Hoy</h2>
+		<p class="mb-5 font-light text-gray-500 sm:text-xl text-center">Mantenete 100% informado</p>
 		<div class="bg-green-600 py-2 mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
 			<div class="flex items-center justify-center md:justify-start text-center md:text-left">
 				<a href="#" class="text-2xl font-semibold text-gray-900 dark:text-white">
-					<img src="./images/logo-light.png" style="width: 75px;height: 50px;" alt="Landwind Logo" />
+					<img src="./images/logo-light.png" style="width: 75px;height: 50px;margin-right: 4px;" alt="Landwind Logo" />
 				</a>
 				<span class="block text-sm text-left text-white">© 2024 Grupo Cooperativo Mutual Devoto. Todos los derechos reservados.
 				</span>
